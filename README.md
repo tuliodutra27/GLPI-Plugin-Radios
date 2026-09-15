@@ -2,19 +2,22 @@
 
 Plugin para **cadastro, gestão e histórico de rádios comunicadores** no GLPI, integrado ao menu Ativos.
 
+> Este plugin era mantido junto com o [plugin Termos](https://github.com/tuliodutra27/plugin-termos)
+> no mesmo repositório; a partir desta versão vive em repositório próprio.
+
 ## Requisitos
 
-- GLPI 10.0.0 ou superior
+- GLPI 10.0.0 ou superior (compatível com GLPI 11)
 - PHP 8.0+
 
 ## Instalação
 
 ### 1. Copiar o plugin
 
-Copie a pasta `radios/` para o diretório de plugins do GLPI:
+Clone este repositório (ou copie seu conteúdo) para o diretório de plugins do GLPI, na pasta `radios/`:
 
-```
-/var/www/glpi/plugins/radios/
+```bash
+git clone https://github.com/tuliodutra27/GLPI-Plugin-Radios.git /var/www/glpi/plugins/radios
 ```
 
 ### 2. Ativar no GLPI
@@ -25,9 +28,9 @@ Acesse **Configuração → Plugins**, localize **Radios** e clique em **Instala
 
 | Tabela | Descrição |
 |---|---|
-| `glpi_radios` | Cadastro principal dos rádios |
+| `glpi_plugin_radios_radios` | Cadastro principal dos rádios |
 | `glpi_radios_historico` | Histórico de todas as alterações realizadas |
-| `glpi_pre_update_radios` | Snapshot do estado anterior à edição (usado para gerar diff no histórico) |
+| `glpi_pre_update_radios` | Tabela auxiliar criada/removida pelo instalador; não é usada pelo fluxo atual (mantida por compatibilidade) |
 
 ## Campos do cadastro
 
@@ -86,7 +89,7 @@ Exclusão lógica (soft delete — campo `is_deleted = 1`). O rádio não aparec
 
 Acesse **Configuração → Plugins**, localize **Radios**, clique em **Desativar** e depois em **Desinstalar**.
 
-> A desinstalação remove permanentemente as tabelas `glpi_radios_historico`, `glpi_pre_update_radios` e `glpi_radios`.
+> A desinstalação remove permanentemente as tabelas `glpi_radios_historico`, `glpi_pre_update_radios` e `glpi_plugin_radios_radios`.
 
 ## Autores
 
