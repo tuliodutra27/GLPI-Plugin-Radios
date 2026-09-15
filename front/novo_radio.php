@@ -47,7 +47,7 @@ if (isset($_POST['add_radio'])) {
         // Verificar duplicidade de série
         try {
             $check_sql = "SELECT COUNT(*) as total FROM glpi_plugin_radios_radios WHERE serial = '" . $DB->escape($serial) . "' AND is_deleted = 0";
-            $check_result = $DB->query($check_sql);
+            $check_result = $DB->doQuery($check_sql);
             $check_data = $DB->fetchAssoc($check_result);
             
             if ($check_data['total'] > 0) {
@@ -83,7 +83,7 @@ if (isset($_POST['add_radio'])) {
                  '$chave_nf_esc', '$comment_esc', $states_id, $users_id, $locations_id, $groups_id,
                  $entities_id, NOW(), NOW(), 0, 0)";
         
-        $result = $DB->query($sql);
+        $result = $DB->doQuery($sql);
         
         if ($result) {
             $radio_id = $DB->insertId();
@@ -99,7 +99,7 @@ if (isset($_POST['add_radio'])) {
                              '$otherserial_esc', $states_id, $groups_id, $users_id,
                              $locations_id, $tecnico_alterou_id, NOW(), $entities_id)";
                 
-                $hist_result = $DB->query($hist_sql);
+                $hist_result = $DB->doQuery($hist_sql);
                 
                 if (!$hist_result) {
                     // Log do erro para debug

@@ -102,7 +102,7 @@ class PluginRadiosRadio extends CommonDBTM {
 
         Html::printAjaxPager(__('Histórico', 'radios'), $start, $total);
 
-        $result = $DB->query(
+        $result = $DB->doQuery(
             "SELECT h.id,
                     h.data_movimentacao,
                     CONCAT(IFNULL(t.firstname,''), ' ', IFNULL(t.realname,'')) AS tecnico_nome,
@@ -169,7 +169,7 @@ class PluginRadiosRadio extends CommonDBTM {
 
     private function insertHistoricoEntry() {
         global $DB;
-        $DB->query(
+        $DB->doQuery(
             "INSERT INTO `glpi_radios_historico`
                 (`radios_id`, `serial`, `model`, `manufacturers_id`, `patrimonio`,
                  `states_id`, `groups_id`, `users_id`, `locations_id`,

@@ -24,7 +24,7 @@ if ($radio_id <= 0) {
 // Buscar dados do rádio
 try {
     $sql = "SELECT * FROM glpi_plugin_radios_radios WHERE id = $radio_id AND is_deleted = 0";
-    $result = $DB->query($sql);
+    $result = $DB->doQuery($sql);
     
     if (!$result || $DB->numrows($result) == 0) {
         Session::addMessageAfterRedirect('Rádio não encontrado', true, ERROR);
@@ -109,7 +109,7 @@ function registrarHistorico($DB, $radio_id, $dados_antigos, $dados_novos) {
                     " . intval($_SESSION['glpiactive_entity']) . "
                 )";
                 
-                $result = $DB->query($insert_sql);
+                $result = $DB->doQuery($insert_sql);
                 if ($result) {
                     $alteracoes_registradas++;
                 }
@@ -132,7 +132,7 @@ function obterValorDescritivo($DB, $campo, $valor) {
     try {
         switch ($campo) {
             case 'manufacturers_id':
-                $result = $DB->query("SELECT name FROM glpi_manufacturers WHERE id = " . (int)$valor);
+                $result = $DB->doQuery("SELECT name FROM glpi_manufacturers WHERE id = " . (int)$valor);
                 if ($result && $DB->numrows($result) > 0) {
                     $row = $DB->fetchAssoc($result);
                     return $row['name'];
@@ -140,7 +140,7 @@ function obterValorDescritivo($DB, $campo, $valor) {
                 break;
                 
             case 'states_id':
-                $result = $DB->query("SELECT name FROM glpi_states WHERE id = " . (int)$valor);
+                $result = $DB->doQuery("SELECT name FROM glpi_states WHERE id = " . (int)$valor);
                 if ($result && $DB->numrows($result) > 0) {
                     $row = $DB->fetchAssoc($result);
                     return $row['name'];
@@ -148,7 +148,7 @@ function obterValorDescritivo($DB, $campo, $valor) {
                 break;
                 
             case 'groups_id':
-                $result = $DB->query("SELECT name, completename FROM glpi_groups WHERE id = " . (int)$valor);
+                $result = $DB->doQuery("SELECT name, completename FROM glpi_groups WHERE id = " . (int)$valor);
                 if ($result && $DB->numrows($result) > 0) {
                     $row = $DB->fetchAssoc($result);
                     return !empty($row['completename']) ? $row['completename'] : $row['name'];
@@ -156,7 +156,7 @@ function obterValorDescritivo($DB, $campo, $valor) {
                 break;
                 
             case 'users_id':
-                $result = $DB->query("SELECT realname, firstname FROM glpi_users WHERE id = " . (int)$valor);
+                $result = $DB->doQuery("SELECT realname, firstname FROM glpi_users WHERE id = " . (int)$valor);
                 if ($result && $DB->numrows($result) > 0) {
                     $row = $DB->fetchAssoc($result);
                     return trim($row['firstname'] . ' ' . $row['realname']);
@@ -164,7 +164,7 @@ function obterValorDescritivo($DB, $campo, $valor) {
                 break;
                 
             case 'locations_id':
-                $result = $DB->query("SELECT name FROM glpi_locations WHERE id = " . (int)$valor);
+                $result = $DB->doQuery("SELECT name FROM glpi_locations WHERE id = " . (int)$valor);
                 if ($result && $DB->numrows($result) > 0) {
                     $row = $DB->fetchAssoc($result);
                     return $row['name'];
@@ -210,7 +210,7 @@ if (isset($_POST['update_radio'])) {
             // Verificar duplicidade de série (excluindo o próprio registro)
             try {
                 $check_sql = "SELECT COUNT(*) as total FROM glpi_plugin_radios_radios WHERE serial = '" . $DB->escape($form_data['serial']) . "' AND is_deleted = 0 AND id != $radio_id";
-                $check_result = $DB->query($check_sql);
+                $check_result = $DB->doQuery($check_sql);
                 $check_data = $DB->fetchAssoc($check_result);
                 
                 if ($check_data['total'] > 0) {
@@ -250,7 +250,7 @@ if (isset($_POST['update_radio'])) {
                         `date_mod` = NOW()
                         WHERE `id` = $radio_id";
                 
-                $result = $DB->query($sql);
+                $result = $DB->doQuery($sql);
                 
                 if ($result) {
                     $alteracoes = registrarHistorico($DB, $radio_id, $radio, $form_data);

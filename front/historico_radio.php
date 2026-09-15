@@ -96,8 +96,8 @@ LEFT JOIN glpi_users t ON h.tecnico_alterou_id = t.id
 $where_sql";
 
 try {
-    $result = $DB->query($sql);
-    $count_result = $DB->query($count_sql);
+    $result = $DB->doQuery($sql);
+    $count_result = $DB->doQuery($count_sql);
     $total_registros = $DB->fetchAssoc($count_result)['total'];
 } catch (Exception $e) {
     Session::addMessageAfterRedirect('Erro ao carregar histórico: ' . $e->getMessage(), true, ERROR);
@@ -161,7 +161,7 @@ function exportarDados($DB, $tipo) {
     ORDER BY h.id $ordenacao";
     
     try {
-        $result = $DB->query($sql);
+        $result = $DB->doQuery($sql);
         $dados = [];
         
         // Cabeçalhos

@@ -34,9 +34,7 @@ function plugin_radios_install() {
         KEY `idx_chave_nf` (`chave_nf`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
-    if (!$DB->queryOrDie($query_radios, "Erro ao criar tabela glpi_plugin_radios_radios")) {
-        return false;
-    }
+    $DB->doQuery($query_radios);
 
     // Criação da tabela de histórico glpi_radios_historico - VERSÃO ATUALIZADA
     $table_historico = 'glpi_radios_historico';
@@ -63,9 +61,7 @@ function plugin_radios_install() {
         CONSTRAINT `fk_radios_historico_radios` FOREIGN KEY (`radios_id`) REFERENCES `glpi_plugin_radios_radios` (`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
     
-    if (!$DB->queryOrDie($query_historico, "Erro ao criar tabela glpi_radios_historico")) {
-        return false;
-    }
+    $DB->doQuery($query_historico);
 
     // Criação da nova tabela glpi_pre_update_radios
     $table_pre_update = 'glpi_pre_update_radios';
@@ -101,9 +97,7 @@ function plugin_radios_install() {
         KEY `idx_pre_name` (`name`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
-    if (!$DB->queryOrDie($query_pre_update, "Erro ao criar tabela glpi_pre_update_radios")) {
-        return false;
-    }
+    $DB->doQuery($query_pre_update);
 
     return true;
 }
@@ -112,19 +106,13 @@ function plugin_radios_uninstall() {
     global $DB;
     
     // Remove primeiro a tabela com foreign key (histórico)
-    if (!$DB->queryOrDie("DROP TABLE IF EXISTS `glpi_radios_historico`", "Erro ao remover tabela glpi_radios_historico")) {
-        return false;
-    }
-    
+    $DB->doQuery("DROP TABLE IF EXISTS `glpi_radios_historico`");
+
     // Remove a tabela de pré-atualização
-    if (!$DB->queryOrDie("DROP TABLE IF EXISTS `glpi_pre_update_radios`", "Erro ao remover tabela glpi_pre_update_radios")) {
-        return false;
-    }
-    
+    $DB->doQuery("DROP TABLE IF EXISTS `glpi_pre_update_radios`");
+
     // Por último remove a tabela principal
-    if (!$DB->queryOrDie("DROP TABLE IF EXISTS `glpi_plugin_radios_radios`", "Erro ao remover tabela glpi_plugin_radios_radios")) {
-        return false;
-    }
+    $DB->doQuery("DROP TABLE IF EXISTS `glpi_plugin_radios_radios`");
     
     return true;
 }

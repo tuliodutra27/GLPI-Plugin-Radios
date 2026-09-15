@@ -75,7 +75,7 @@ if (isset($_GET['export_csv'])) {
                 WHERE $where_clause
                 ORDER BY r.id $order";
         
-        $result = $DB->query($sql);
+        $result = $DB->doQuery($sql);
         
         // Preparar arquivo CSV
         $filename = 'radios_' . date('Y-m-d_H-i-s') . '.csv';
@@ -167,7 +167,7 @@ if (isset($_POST['delete_id']) && isset($_POST['confirm_delete'])) {
         try {
             // Soft delete - marcar como deletado
             $sql = "UPDATE glpi_plugin_radios_radios SET is_deleted = 1, date_mod = NOW() WHERE id = $delete_id";
-            $result = $DB->query($sql);
+            $result = $DB->doQuery($sql);
             
             if ($result) {
                 Session::addMessageAfterRedirect("Rádio excluído com sucesso!", true, INFO);
@@ -216,12 +216,12 @@ if (isset($_POST['bulk_edit'])) {
 
     $updated = 0;
     foreach ($ids as $radio_id) {
-        $before = $DB->fetchAssoc($DB->query("SELECT * FROM glpi_plugin_radios_radios WHERE id = $radio_id AND is_deleted = 0"));
+        $before = $DB->fetchAssoc($DB->doQuery("SELECT * FROM glpi_plugin_radios_radios WHERE id = $radio_id AND is_deleted = 0"));
         if (!$before) continue;
 
-        if ($DB->query("UPDATE `glpi_plugin_radios_radios` SET $set_sql WHERE `id` = $radio_id")) {
+        if ($DB->doQuery("UPDATE `glpi_plugin_radios_radios` SET $set_sql WHERE `id` = $radio_id")) {
             $after = array_merge($before, $updates);
-            $DB->query("INSERT INTO `glpi_radios_historico`
+            $DB->doQuery("INSERT INTO `glpi_radios_historico`
                 (`radios_id`, `serial`, `model`, `manufacturers_id`, `patrimonio`,
                  `states_id`, `groups_id`, `users_id`, `locations_id`,
                  `tecnico_alterou_id`, `data_movimentacao`, `entities_id`)
@@ -467,7 +467,7 @@ try {
                   LEFT JOIN glpi_locations l ON r.locations_id = l.id
                   WHERE $where_clause";
     
-    $count_result = $DB->query($count_sql);
+    $count_result = $DB->doQuery($count_sql);
     $count_data = $DB->fetchAssoc($count_result);
     $total_records = $count_data['total'];
     $total_pages = ceil($total_records / $per_page);
@@ -491,7 +491,7 @@ try {
             ORDER BY r.id $order
             LIMIT $per_page OFFSET $offset";
     
-    $result = $DB->query($sql);
+    $result = $DB->doQuery($sql);
     $radios = [];
 
     
@@ -724,11 +724,11 @@ try {
     } else {
         // Debug: verificar se a tabela existe e tem dados
         try {
-            $check_table = $DB->query("SHOW TABLES LIKE 'glpi_plugin_radios_radios'");
+            $check_table = $DB->doQuery("SHOW TABLES LIKE 'glpi_plugin_radios_radios'");
             if ($DB->numrows($check_table) == 0) {
                 echo "<p style='text-align: center; color: red;'>❌ Tabela 'glpi_plugin_radios_radios' não existe. Verifique se o hook de instalação foi executado.</p>";
             } else {
-                $count_query = $DB->query("SELECT COUNT(*) as total FROM glpi_plugin_radios_radios WHERE is_deleted = 0");
+                $count_query = $DB->doQuery("SELECT COUNT(*) as total FROM glpi_plugin_radios_radios WHERE is_deleted = 0");
                 $count_result = $DB->fetchAssoc($count_query);
                 $total_radios = $count_result['total'];
                 
