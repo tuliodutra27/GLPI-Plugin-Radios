@@ -8,19 +8,19 @@ class PluginRadiosRadio extends CommonDBTM {
         return _n('Rádio', 'Rádios', $nb, 'radios');
     }
 
-    static function canView() {
+    static function canView(): bool {
         return Session::haveRight('config', READ);
     }
 
-    static function canCreate() {
+    static function canCreate(): bool {
         return Session::haveRight('config', UPDATE);
     }
 
-    static function canUpdate() {
+    static function canUpdate(): bool {
         return Session::haveRight('config', UPDATE);
     }
 
-    static function canDelete() {
+    static function canDelete(): bool {
         return Session::haveRight('config', UPDATE);
     }
 
