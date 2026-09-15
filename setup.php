@@ -1,6 +1,6 @@
 <?php
 
-define('PLUGIN_RADIOS_VERSION', '1.0.0');
+define('PLUGIN_RADIOS_VERSION', '1.0.1');
 
 function plugin_version_radios() {
     return [
@@ -8,7 +8,7 @@ function plugin_version_radios() {
         'version'        => PLUGIN_RADIOS_VERSION,
         'author'         => 'Diego, Luciano, Rafael e Tulio',
         'license'        => 'GPLv2+',
-        'homepage'       => '',
+        'homepage'       => 'https://github.com/tuliodutra27/plugin-termos/tree/main/radios',
         'requirements'   => [
             'glpi' => [
                 'min' => '10.0.0'

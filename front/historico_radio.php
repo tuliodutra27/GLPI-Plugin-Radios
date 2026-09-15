@@ -368,38 +368,38 @@ if ($total_registros > 0) {
         
         // ID
         echo "<td style='text-align: center;'>" . $row['id'] . "</td>";
-        
+
         // Serial
-        echo "<td>" . Html::clean($row['serial'] ?? '-') . "</td>";
-        
+        echo "<td>" . Html::entities_deep($row['serial'] ?? '-') . "</td>";
+
         // Modelo
-        echo "<td>" . Html::clean($row['model'] ?? '-') . "</td>";
-        
+        echo "<td>" . Html::entities_deep($row['model'] ?? '-') . "</td>";
+
         // Fabricante
-        echo "<td>" . Html::clean($row['fabricante_nome'] ?? '-') . "</td>";
-        
+        echo "<td>" . Html::entities_deep($row['fabricante_nome'] ?? '-') . "</td>";
+
         // Patrimônio
-        echo "<td>" . Html::clean($row['patrimonio'] ?? '-') . "</td>";
-        
+        echo "<td>" . Html::entities_deep($row['patrimonio'] ?? '-') . "</td>";
+
         // Estado
-        echo "<td>" . Html::clean($row['estado_nome'] ?? '-') . "</td>";
-        
+        echo "<td>" . Html::entities_deep($row['estado_nome'] ?? '-') . "</td>";
+
         // Grupo
         $grupo_nome = !empty($row['grupo_nome_completo']) ? $row['grupo_nome_completo'] : ($row['grupo_nome'] ?? '-');
-        echo "<td>" . Html::clean($grupo_nome) . "</td>";
-        
+        echo "<td>" . Html::entities_deep($grupo_nome) . "</td>";
+
         // Usuário
         $usuario_nome = trim(($row['usuario_nome'] ?? '') . ' ' . ($row['usuario_sobrenome'] ?? ''));
         if (empty($usuario_nome)) $usuario_nome = '-';
-        echo "<td>" . Html::clean($usuario_nome) . "</td>";
-        
+        echo "<td>" . Html::entities_deep($usuario_nome) . "</td>";
+
         // Localização
-        echo "<td>" . Html::clean($row['localizacao_nome'] ?? '-') . "</td>";
-        
+        echo "<td>" . Html::entities_deep($row['localizacao_nome'] ?? '-') . "</td>";
+
         // Usuário que alterou (técnico)
         $tecnico_nome = trim(($row['tecnico_nome'] ?? '') . ' ' . ($row['tecnico_sobrenome'] ?? ''));
         if (empty($tecnico_nome)) $tecnico_nome = 'Super Admin';
-        echo "<td>" . Html::clean($tecnico_nome) . "</td>";
+        echo "<td>" . Html::entities_deep($tecnico_nome) . "</td>";
         
         // Data da movimentação
         $data_formatada = '-';
