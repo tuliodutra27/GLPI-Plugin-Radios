@@ -1,6 +1,6 @@
 <?php
 
-define('PLUGIN_RADIOS_VERSION', '1.0.3');
+define('PLUGIN_RADIOS_VERSION', '1.1.0');
 
 function plugin_version_radios() {
     return [
@@ -36,4 +36,7 @@ function plugin_init_radios() {
     // Define as classes do plugin
     Plugin::registerClass('PluginRadiosMenu');
     Plugin::registerClass('PluginRadiosRadio', ['addtabon' => ['PluginRadiosRadio']]);
+
+    // Abas "Laudos" e "Chamados" no formulário do rádio (depois da aba "Histórico")
+    Plugin::registerClass('PluginRadiosVinculo', ['addtabon' => ['PluginRadiosRadio']]);
 }
