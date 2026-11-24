@@ -77,6 +77,19 @@ Edição completa dos dados. O sistema captura o estado anterior ao salvar e reg
 
 Visualização de todas as alterações do rádio com filtros por número de série e período. Exportação disponível em **CSV** (UTF-8 com BOM para compatibilidade com Excel, separador `;`).
 
+### Vínculos com Laudos e Chamados
+
+O formulário do rádio tem duas abas, depois do Histórico. Cada item delas abre em uma **nova guia**.
+
+- **Laudos** — os laudos do plugin [Laudo](https://github.com/tuliodutra27/GLPI-Plugin-Laudos) que têm
+  este rádio como "Ativo vinculado", com situação, setor, data e o chamado de cada um. A aba só
+  aparece com o plugin Laudo ativo e com perfil que pode ver laudos.
+- **Chamados** — os chamados ligados ao rádio pelo GLPI (campo "Itens" do chamado) e os chamados
+  informados nos laudos dele. Cada chamado aparece uma vez, com a origem do vínculo. Quem não pode
+  abrir um chamado vê só o número.
+
+O plugin só lê esses dados; nada é gravado no banco.
+
 ### Exportar Lista (CSV)
 
 Exporta a lista filtrada atual para CSV com os mesmos campos da listagem.
