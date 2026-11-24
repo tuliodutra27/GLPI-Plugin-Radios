@@ -101,6 +101,7 @@ function plugin_radios_install() {
             `tecnico_alterou_id` INT(11) UNSIGNED NOT NULL DEFAULT 0,
             `data_movimentacao` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
             `entities_id` INT(11) UNSIGNED NOT NULL DEFAULT 0,
+            `comment` TEXT,
             PRIMARY KEY (`id`),
             KEY `idx_radios_id` (`radios_id`),
             KEY `idx_data_movimentacao` (`data_movimentacao`),
@@ -123,6 +124,9 @@ function plugin_radios_install() {
             'locations_id'       => "INT(11) UNSIGNED NOT NULL DEFAULT 0",
             'tecnico_alterou_id' => "INT(11) UNSIGNED NOT NULL DEFAULT 0",
             'entities_id'        => "INT(11) UNSIGNED NOT NULL DEFAULT 0",
+            // Comentário do rádio no momento da alteração (1.1.1). Fica NULL nas linhas anteriores
+            // a essa versão, que não guardavam o comentário.
+            'comment'            => "TEXT",
         ];
         $historicoKeyed = ['serial', 'patrimonio', 'tecnico_alterou_id'];
 

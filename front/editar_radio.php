@@ -54,7 +54,8 @@ function registrarHistorico($DB, $radio_id, $dados_antigos, $dados_novos) {
         'states_id' => 'Status',
         'groups_id' => 'Grupo',
         'users_id' => 'Usuário',
-        'locations_id' => 'Localização'
+        'locations_id' => 'Localização',
+        'comment' => 'Comentários'
     ];
     
     // Mapear campos do banco para campos do histórico
@@ -91,9 +92,10 @@ function registrarHistorico($DB, $radio_id, $dados_antigos, $dados_novos) {
                     groups_id, 
                     users_id, 
                     locations_id, 
-                    tecnico_alterou_id, 
-                    data_movimentacao, 
-                    entities_id
+                    tecnico_alterou_id,
+                    data_movimentacao,
+                    entities_id,
+                    comment
                 ) VALUES (
                     $radio_id,
                     '" . $DB->escape($dados_novos['serial']) . "',
@@ -106,7 +108,8 @@ function registrarHistorico($DB, $radio_id, $dados_antigos, $dados_novos) {
                     " . (int)$dados_novos['locations_id'] . ",
                     " . Session::getLoginUserID() . ",
                     NOW(),
-                    " . intval($_SESSION['glpiactive_entity']) . "
+                    " . intval($_SESSION['glpiactive_entity']) . ",
+                    '" . $DB->escape($dados_novos['comment'] ?? '') . "'
                 )";
                 
                 $result = $DB->doQuery($insert_sql);

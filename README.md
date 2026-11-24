@@ -71,11 +71,16 @@ Formulário de cadastro com validação de série duplicada. O cadastro já regi
 
 Edição completa dos dados. O sistema captura o estado anterior ao salvar e registra no histórico **apenas os campos que foram alterados**, identificando o técnico responsável pela alteração e a data/hora.
 
-**Campos monitorados no histórico:** série, modelo, fabricante, patrimônio, status, grupo, usuário, localização.
+**Campos monitorados no histórico:** série, modelo, fabricante, patrimônio, status, grupo, usuário, localização e comentários.
 
 ### Histórico de Movimentações
 
 Visualização de todas as alterações do rádio com filtros por número de série e período. Exportação disponível em **CSV** (UTF-8 com BOM para compatibilidade com Excel, separador `;`).
+
+Cada linha do histórico guarda o estado do rádio **naquele momento**, incluindo o **comentário** (coluna
+"Comentários" na aba Histórico do rádio, na tela de Histórico de Movimentações e no CSV). Assim, uma alteração só
+no comentário também gera uma linha, com o texto novo. Linhas anteriores à versão 1.1.1 não guardavam o
+comentário e mostram "-" nessa coluna.
 
 ### Vínculos com Laudos e Chamados
 
