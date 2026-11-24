@@ -93,11 +93,13 @@ if (isset($_POST['add_radio'])) {
                 $hist_sql = "INSERT INTO `glpi_radios_historico` 
                             (`radios_id`, `serial`, `model`, `manufacturers_id`, 
                              `patrimonio`, `states_id`, `groups_id`, `users_id`, 
-                             `locations_id`, `tecnico_alterou_id`, `data_movimentacao`, `entities_id`)
-                            VALUES 
+                             `locations_id`, `tecnico_alterou_id`, `data_movimentacao`, `entities_id`,
+                             `comment`)
+                            VALUES
                             ($radio_id, '$serial_esc', '$model_esc', $manufacturers_id,
                              '$otherserial_esc', $states_id, $groups_id, $users_id,
-                             $locations_id, $tecnico_alterou_id, NOW(), $entities_id)";
+                             $locations_id, $tecnico_alterou_id, NOW(), $entities_id,
+                             '$comment_esc')";
                 
                 $hist_result = $DB->doQuery($hist_sql);
                 

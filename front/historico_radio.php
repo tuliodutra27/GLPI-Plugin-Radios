@@ -64,6 +64,7 @@ $sql = "SELECT
     h.groups_id,
     h.users_id,
     h.locations_id,
+    h.comment,
     m.name as fabricante_nome,
     s.name as estado_nome,
     g.name as grupo_nome,
@@ -141,6 +142,7 @@ function exportarDados($DB, $tipo) {
         h.patrimonio,
         h.data_movimentacao,
         h.tecnico_alterou_id,
+        h.comment,
         m.name as fabricante_nome,
         s.name as estado_nome,
         g.name as grupo_nome,
@@ -176,7 +178,8 @@ function exportarDados($DB, $tipo) {
             'Usuário',
             'Localização',
             'Usuário que Alterou',
-            'Data Movimentação'
+            'Data Movimentação',
+            'Comentários'
         ];
         
         $dados[] = $headers;
@@ -212,7 +215,8 @@ function exportarDados($DB, $tipo) {
                 $usuario_nome,
                 $row['localizacao_nome'] ?? '-',
                 $tecnico_nome,
-                $data_formatada
+                $data_formatada,
+                PluginRadiosRadio::historicoCommentText($row['comment'] ?? null)
             ];
         }
         
@@ -357,6 +361,7 @@ if ($total_registros > 0) {
     echo "<th width='120'>Localização</th>";
     echo "<th width='150'>Usuário que Alterou</th>";
     echo "<th width='140'>Data Movimentação</th>";
+    echo "<th width='300'>Comentários</th>";
     echo "</tr>";
     
     // Dados
@@ -412,7 +417,11 @@ if ($total_registros > 0) {
             }
         }
         echo "<td style='text-align: center;'>" . $data_formatada . "</td>";
-        
+
+        // Comentário do rádio no momento da alteração
+        echo "<td style='min-width: 240px; max-width: 480px; word-break: break-word;'>"
+            . PluginRadiosRadio::formatHistoricoComment($row['comment'] ?? null) . "</td>";
+
         echo "</tr>";
         $linha++;
     }

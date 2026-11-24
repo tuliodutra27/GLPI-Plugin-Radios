@@ -109,7 +109,8 @@ class PluginRadiosRadio extends CommonDBTM {
                     s.name  AS state_name,
                     g.completename AS group_name,
                     CONCAT(IFNULL(u.firstname,''), ' ', IFNULL(u.realname,'')) AS usuario_nome,
-                    l.name  AS location_name
+                    l.name  AS location_name,
+                    h.comment
              FROM glpi_radios_historico h
              LEFT JOIN glpi_users t ON h.tecnico_alterou_id = t.id
              LEFT JOIN glpi_states s ON h.states_id = s.id
@@ -130,6 +131,7 @@ class PluginRadiosRadio extends CommonDBTM {
         echo "<th>" . __('Grupo', 'radios')        . "</th>";
         echo "<th>" . __('Usuário', 'radios')      . "</th>";
         echo "<th>" . __('Localização', 'radios')  . "</th>";
+        echo "<th>" . __('Comentários', 'radios')  . "</th>";
         echo "</tr>";
 
         if ($result && $DB->numrows($result) > 0) {
@@ -144,11 +146,13 @@ class PluginRadiosRadio extends CommonDBTM {
                 echo "<td>" . Html::entities_deep($row['group_name']  ?? '-') . "</td>";
                 echo "<td>" . Html::entities_deep(trim($row['usuario_nome'])) . "</td>";
                 echo "<td>" . Html::entities_deep($row['location_name'] ?? '-') . "</td>";
+                echo "<td style='min-width: 240px; max-width: 480px; word-break: break-word;'>"
+                    . self::formatHistoricoComment($row['comment'] ?? null) . "</td>";
                 echo "</tr>";
                 $i++;
             }
         } else {
-            echo "<tr class='tab_bg_1'><td colspan='7' class='center'>";
+            echo "<tr class='tab_bg_1'><td colspan='8' class='center'>";
             echo __('Nenhum histórico encontrado.', 'radios');
             echo "</td></tr>";
         }
@@ -167,13 +171,48 @@ class PluginRadiosRadio extends CommonDBTM {
         $this->insertHistoricoEntry();
     }
 
+    /**
+     * Texto do comentário do histórico em texto puro (sem as entidades HTML que o GLPI grava,
+     * como &lt; no lugar de <). Serve para exportação CSV e é a base de formatHistoricoComment().
+     */
+    public static function historicoCommentText($comment): string {
+        $text = trim((string)$comment);
+        if ($text === '') {
+            return '';
+        }
+        return html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+
+    /**
+     * Comentário do histórico pronto para uma célula de tabela: já escapado, com as quebras de
+     * linha preservadas, e "-" quando não há texto (inclusive nas linhas de antes da 1.1.1, que
+     * não guardavam o comentário).
+     */
+    public static function formatHistoricoComment($comment): string {
+        $text = self::historicoCommentText($comment);
+        if ($text === '') {
+            return '-';
+        }
+        return nl2br(htmlspecialchars($text, ENT_QUOTES, 'UTF-8'), false);
+    }
+
     private function insertHistoricoEntry() {
         global $DB;
+
+        // Dentro de post_addItem/post_updateItem, $this->fields['comment'] ainda está como veio do
+        // formulário (escapado para gravação), e não como ficou no banco. A fonte é o que o rádio
+        // tem gravado: relê esse valor (getFromDB entrega o texto cru) e escapa uma vez só, para o
+        // histórico guardar exatamente o comentário do rádio naquele momento.
+        $fresh   = new self();
+        $comment = $fresh->getFromDB(intval($this->fields['id']))
+            ? (string)($fresh->fields['comment'] ?? '')
+            : '';
+
         $DB->doQuery(
             "INSERT INTO `glpi_radios_historico`
                 (`radios_id`, `serial`, `model`, `manufacturers_id`, `patrimonio`,
                  `states_id`, `groups_id`, `users_id`, `locations_id`,
-                 `tecnico_alterou_id`, `data_movimentacao`, `entities_id`)
+                 `tecnico_alterou_id`, `data_movimentacao`, `entities_id`, `comment`)
              VALUES (
                  "  . intval($this->fields['id'])                              . ",
                  '" . $DB->escape($this->fields['serial']        ?? '') . "',
@@ -186,7 +225,8 @@ class PluginRadiosRadio extends CommonDBTM {
                  "  . intval($this->fields['locations_id']       ?? 0)         . ",
                  "  . Session::getLoginUserID()                                . ",
                  NOW(),
-                 "  . intval($this->fields['entities_id']        ?? 0)         . "
+                 "  . intval($this->fields['entities_id']        ?? 0)         . ",
+                 '" . $DB->escape($comment)                                     . "'
              )"
         );
     }

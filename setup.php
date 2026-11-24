@@ -1,6 +1,6 @@
 <?php
 
-define('PLUGIN_RADIOS_VERSION', '1.1.0');
+define('PLUGIN_RADIOS_VERSION', '1.1.1');
 
 function plugin_version_radios() {
     return [
