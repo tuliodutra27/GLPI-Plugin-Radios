@@ -63,8 +63,9 @@ Para cada versão `X.Y.Z`:
 3. No `CHANGELOG.md`: mova o `[Não lançado]` para a seção `[X.Y.Z] - AAAA-MM-DD` e atualize os
    links no rodapé.
 4. Em `setup.php`: ajuste `PLUGIN_RADIOS_VERSION` para `X.Y.Z`.
-5. Commit: `chore(release): X.Y.Z`.
-6. Escreva o texto da tag em um arquivo **fora** do repositório e crie a **tag anotada**:
+5. Em `radio.xml`: acrescente a versão em `<versions>`, com a faixa de GLPI em que foi testada.
+6. Commit: `chore(release): X.Y.Z`.
+7. Escreva o texto da tag em um arquivo **fora** do repositório e crie a **tag anotada**:
 
    ```
    git tag -a vX.Y.Z -F notas-da-tag.txt
@@ -88,14 +89,15 @@ Para cada versão `X.Y.Z`:
    Atualização: substitua os arquivos da pasta e, em Configurar > Plugins, clique em Atualizar e
    depois em Ativar (a X.Y.Z muda o banco).
 
-   Mudanças completas: CHANGELOG.md
+   Mudanças completas: CHANGELOG.md, no repositório do GitHub.
    ```
 
    A linha entre parênteses da Atualização só diz que muda o banco quando muda; senão, diga que a
    estrutura do banco não muda.
-7. Envie: `git push origin main` e, separado, `git push origin vX.Y.Z`.
-8. Confira na aba **Actions** do GitHub que o workflow **Release** terminou verde, que a release tem
-   o zip `radios-X.Y.Z.zip` e instale esse zip uma vez para ver que sobe.
+8. Envie: `git push origin main` e, separado, `git push origin vX.Y.Z`.
+9. Confira na aba **Actions** do GitHub que o workflow **Release** terminou verde, que a release tem
+   o zip `radios-X.Y.Z.zip`, que o zip só tem o código do plugin, e instale esse zip uma vez para
+   ver que sobe.
 
 ## 5. O que o workflow faz
 
@@ -105,8 +107,11 @@ Para cada versão `X.Y.Z`:
 2. gera `radios-X.Y.Z.zip` com `git archive`, dentro da pasta `radios/` (o GLPI exige esse nome);
 3. cria a release com o zip e o texto da tag como descrição (tag com hífen vira pré-lançamento).
 
-O `.gitattributes` mantém `.github`, `.gitattributes` e `.gitignore` fora do zip e fixa os finais de
-linha em LF (o plugin roda em Linux).
+O `.gitattributes` fixa os finais de linha em LF (o plugin roda em Linux) e define o que fica **fora**
+do zip, para ele levar só o código do plugin: `.github`, `.gitattributes`, `.gitignore`, `docs/`,
+`README.md`, `CHANGELOG.md` e `radio.xml` (os dados do plugin para o diretório do GLPI, que ficam no
+repositório). **Arquivo novo que não é código do plugin precisa entrar no `.gitattributes` com
+`export-ignore`.**
 
 Se o workflow falhar **antes** de criar a release, a tag ainda não foi publicada e pode ser
 refeita; **depois** que a release existe, só sai versão nova.
