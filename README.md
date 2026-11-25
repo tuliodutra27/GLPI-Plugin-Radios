@@ -14,7 +14,15 @@ Plugin para **cadastro, gestão e histórico de rádios comunicadores** no GLPI,
 
 ### 1. Copiar o plugin
 
-Clone este repositório (ou copie seu conteúdo) para o diretório de plugins do GLPI, na pasta `radios/`:
+**Pelo zip da release (recomendado).** Baixe o `radios-X.Y.Z.zip` da página de
+[Releases](https://github.com/tuliodutra27/GLPI-Plugin-Radios/releases) e extraia dentro da pasta
+`plugins/` do GLPI (a pasta do plugin precisa se chamar `radios`). Para atualizar, substitua os
+arquivos da pasta e, em Configurar > Plugins, clique em **Atualizar** e depois em **Ativar**. As mudanças de cada versão
+estão no [CHANGELOG.md](CHANGELOG.md) e a rotina de publicação em
+[docs/VERSIONAMENTO.md](docs/VERSIONAMENTO.md).
+
+**Pelo Git (desenvolvimento).** Clone este repositório (ou copie seu conteúdo) para o diretório de
+plugins do GLPI, na pasta `radios/`:
 
 ```bash
 git clone https://github.com/tuliodutra27/GLPI-Plugin-Radios.git /var/www/glpi/plugins/radios
