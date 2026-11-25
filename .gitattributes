@@ -1,0 +1,14 @@
+# O plugin roda em Linux: manter finais de linha LF no repositório e na cópia local
+* text=auto eol=lf
+*.png binary
+
+# O zip da release (git archive) leva só o código do plugin.
+# Tudo o que não é código do plugin fica só no repositório. Arquivo novo que não faz parte do
+# plugin precisa entrar aqui com export-ignore.
+/.github export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/docs export-ignore
+/README.md export-ignore
+/CHANGELOG.md export-ignore
+/radio.xml export-ignore
